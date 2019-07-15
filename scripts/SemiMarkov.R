@@ -256,7 +256,7 @@ codaSamples = coda.samples( jagsModel, variable.names=parameters,
                             n.iter=nIter, thin=thinSteps)
 
 # to save the posteriors: 
-#save(codaSamples, file="results/codaSemiMarkov")
+#save(codaSamples, file="codaSemiMarkov")
 
 t2<-Sys.time()
 t2-t1

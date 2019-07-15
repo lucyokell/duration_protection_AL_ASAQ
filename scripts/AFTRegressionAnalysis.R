@@ -1,14 +1,15 @@
 # RUN ACCELERATED FAILURE TIME REGRESSION MODELS.
 # Files required:
-# Clinical trial data from WWARN.
+# Individual patient clinical trial data from WWARN. AL and AS-AQ trial arms from studies with WWARN IDs: SBCEE, EGYMA, GPXJK, ACHGC, JXZNZ,QRBRC,UBTXH,YGTAH
 # source("scripts/regressionDataPreparation.R")
 
 
 #install.packages("lmtest")
+#install.packages("survival")
 library(lmtest)
 library(survival)
 
-# function for extracting regression results.
+# functions for extracting regression results.
 tab<-function(log_est,se_log,dp=2) {
   paste0(round(exp(log_est),dp)," (",round(exp(log_est-1.96*se_log),dp),", ",round(exp(log_est+1.96*se_log),dp),")")
 }

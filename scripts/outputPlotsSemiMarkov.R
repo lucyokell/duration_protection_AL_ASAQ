@@ -1,9 +1,9 @@
 # ANALYSE AND PLOT RESULTS OF THE HIDDEN SEMI MARKOV MODEL
-# Files required: 
+# Files required (freely available online):
 # output of hidden semi markov model 'codaSemiMarkov'
-# site information: 'sites_all_mut2.csv'
-# proportions reinfected over time in each site: 'summ_reinfection_by_site.csv'
-# (for Figure 2) data from WWARN on ages of each individual.
+# site information: 'sites_all_mut2.csv' 
+# proportions reinfected over time in each site: data. 'summ_reinfection_by_site.csv'
+# proportions reinfected over time in each site: model predictions. 'predict_reinfect.csv'
 
 #install.packages("coda")
 #install.packages("vioplot")
@@ -15,16 +15,16 @@ library(binom)
 library(gplots)
 
 ## if rerunning the analysis...:
-source("dataPreparationSemiMarkov.R")
-source("SemiMarkov.R")
+#source("dataPreparationSemiMarkov.R")
+#source("SemiMarkov.R")
 
 plot2file<-F   ## change to true in order to save plots.
 
 # ...Or load results and data.
-#load("results/codaSemiMarkov_IB2018_updatedEIRs_100000") 
 load("codaSemiMarkov")
 mut<-read.csv("sites_all_mut2.csv",stringsAsFactors = F)
 summ_data<-read.csv("summ_reinfection_by_site.csv",stringsAsFactors = F)
+sims<-read.csv("predict_reinfect.csv",stringsAsFactors = F)
 
 codaOneDur <- codaSamples
 #combine chains
@@ -181,7 +181,8 @@ if(plot2file) {
 
 #### Figure 2 Time to reinfection after treatment and model fits	
 
-### get predicted values of prob reinfection at each site.
+### get predicted values of prob reinfection at each site by simulation.....
+#...or read in the saved predictions (see below)
 ## function to simulate reinfection for one site
 simulate_Lucy <- function(shapei=r[2], durPi, siteEiri, age_y_vec, nReps) {
   # parameters
@@ -229,6 +230,8 @@ simulate_Lucy <- function(shapei=r[2], durPi, siteEiri, age_y_vec, nReps) {
 
 
 ###### Figure 2 (continued) Time to reinfection after treatment and model fits for each site.
+siteNos<-siteInfoOrdered$siteNo
+# either simulate (as below) or plot predictions from sims file (see above.)
 if(plot2file) {
   tiff(filename = "results/site_fits.tiff", res=300, width=2500, height=1400,compression="lzw")
   layout(matrix(c(1,2:5,1,6:9,1,10:13,0,14,14,14,14),nrow=4,ncol=5,byrow = TRUE),widths=c(1,5,5,5,5),heights=c(5,5,5,2))

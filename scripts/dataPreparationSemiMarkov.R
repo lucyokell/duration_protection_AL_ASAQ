@@ -1,4 +1,6 @@
 ############ PREPARE CLINICAL TRIAL DATA FOR ANALYSIS BY HIDDEN SEMI MARKOV MODEL
+# Data required:
+# Individual patient clinical trial data from WWARN. AL and AS-AQ trial arms from studies with WWARN IDs: SBCEE, EGYMA, GPXJK, ACHGC, JXZNZ,QRBRC,UBTXH,YGTAH
 
 
 ### INSTALL AND LOAD LIBRARIES

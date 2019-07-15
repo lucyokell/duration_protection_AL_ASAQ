@@ -1,10 +1,12 @@
 ## Prepare data for accelerated failure time models.
+# Data required
 # WHO anthro files (WORLD HEALTH ORGANIZATION 2011), igrowup R package  https://www.who.int/childgrowth/software/en/  Accessed 14/12/18.
+# Individual patient clinical trial data from WWARN. AL and AS-AQ trial arms from studies with WWARN IDs: SBCEE, EGYMA, GPXJK, ACHGC, JXZNZ,QRBRC,UBTXH,YGTAH
 
 
 library(foreign)
 library(plyr)
-# safer version of sample that can deal with vectors of length 1.
+# safer version of 'sample' function that can deal with vectors of length 1.
 resample <- function(x,size0,replace0=F) x[sample.int(length(x),size=size0,replace=replace0)]
 
 
@@ -167,7 +169,7 @@ for(i in weights_ug) {
   }
 }
 
-### # IMPUTE WEIGHT FOR SITE 10 Sikasso Mali - redo.
+### # IMPUTE WEIGHT FOR SITE 10 Sikasso Mali
 inds<-which(d$sid=='EGYMA')
 d$weight[inds]<-NA
 ages_mali<-unique(d$ageyears[inds])
@@ -221,7 +223,7 @@ d$mgPerKgLum[which(d$sid=="GPXJK" & d$treatNum==0)] <-
   dosLumPerKgGPXJK(d$weight[which(d$sid=="GPXJK" & d$treatNum==0)])
 
 
-# ACHGC is Juma 2005 unpublished in wwarn table - dosing analysis Text S1.
+# ACHGC is Juma 2005 unpublished.
 dosAQperKgACHGC  <- Vectorize(function(weight){#mg
   dos <- NA
   AqTab1 <- 200 #in mg
@@ -240,6 +242,7 @@ d$mgPerKgAQ[which(d$sid=="ACHGC" & d$treatNum==1)]<-
 
 d$mgPerKgLum[which(d$sid=="ACHGC" & d$treatNum==0)] <- 
   dosLumPerKgGPXJK(d$weight[which(d$sid=="ACHGC" & d$treatNum==0)])
+
 
 ## JXZNZ. Nikiema et al
 # remove the one obs in this study with no weight data
@@ -299,7 +302,8 @@ d$mgPerKgAQ[which(d$sid=="SBCEE" & d$treatNum==1)]<-
 d$mgPerKgLum[which(d$sid=="SBCEE" & d$treatNum==0)] <- 
   dosLumPerKgGPXJK(d$weight[which(d$sid=="SBCEE" & d$treatNum==0)])
 
-## UBTXH - Schramm 2013 (called Schramm 2013b in wwarn paper)
+
+## UBTXH - Schramm 2013 (called Schramm 2013b in wwarn AL dosing paper)
 dosAQperKgUBTXH <- Vectorize(function(weight){#mg
   dos <- NA
   AqTab1 <- 67.5 #in mg
@@ -317,6 +321,7 @@ d$mgPerKgAQ[which(d$sid=="UBTXH" & d$treatNum==1)]<-
 ### Lum. same standard dosing as 4ABC.
 d$mgPerKgLum[which(d$sid=="UBTXH" & d$treatNum==0)] <- 
   dosLumPerKgGPXJK(d$weight[which(d$sid=="UBTXH" & d$treatNum==0)])
+
 
 ## YGTAH - Burkirwa 2006.
 dosAQperKgYGTAH <- Vectorize(function(weight){#mg
